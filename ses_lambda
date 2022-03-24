@@ -1,0 +1,17 @@
+import boto3, os, json
+
+
+
+ses = boto3.client('ses')
+
+def lambda_handler(event, context):
+    # Print event data to logs .. 
+    print("Received event: " + json.dumps(event))
+   
+    ses.send_email( Source=FROM_EMAIL_ADDRESS,
+        Destination={ 'ToAddresses': [ 'To_email_address] }, 
+        Message={ 'Subject': {'Data': 'Proxy access to S3'},
+            'Body': {'Text': {'Data': event['Body']}}
+        }
+    )
+    return 'Success!'
